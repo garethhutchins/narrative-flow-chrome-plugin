@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
 <script type = "text/javascript" src='popup.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <style>
         .slidecontainer {
             width: 100%;
@@ -83,7 +84,9 @@
         <div class="slidecontainer">
         
           <p><font size ="3"><span id="summary"></span></font></p>
+          
         </div>
+        <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
         <p>
                 Contact:
                 <a id="contact" href="mailto:gareth.hutchins@student.reading.as.uk?Subject=Narrative%20Flow" target="_blank">gareth.hutchins@student.reading.ac.uk</a>
