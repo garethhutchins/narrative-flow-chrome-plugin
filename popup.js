@@ -3,22 +3,12 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
       message.innerText = request.source;
     }
   });
-  function update() {
-    var sentences = document.querySelector('#demo');
-    var ranger = document.querySelector('#myRange');
-    var message = document.querySelector('#message');
-    var summary = document.querySelector('#summary');
-    var subjectivity = document.querySelector('#subjectivity');
-    var tone = document.querySelector('#tone');
-    sentences.innerText = ranger.value;
-    var magellanResult = callMagellan(message,ranger,summary,subjectivity,tone);
-  }
   function cleanXmlChars(input) {
     var NOT_SAFE_IN_XML_1_0 = /[^\x09\x0A\x0D\x20-\xFF\x85\xA0-\uD7FF\uE000-\uFDCF\uFDE0-\uFFFD]/gm;
     return input.replace(NOT_SAFE_IN_XML_1_0, '');
 };
 
-  function callMagellan(content,ranger,summary,Subjectivity,tone) {
+  function callMagellan(content,summary) {
     var result = '';
     //Clean the Content
     var text = content.innerText;
@@ -35,9 +25,9 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
     var command = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?><Nserver><ResultEncoding>UTF-8</ResultEncoding><TextID>summarizer</TextID><NSTEIN_Text>";
     command = command + text;
     //Say we're looking for # sentences
-    command = command + "</NSTEIN_Text><LanguageID>ENGLISH</LanguageID><Methods><nsummarizer><NbSentences>" + ranger.value + "</NbSentences><KBid>IPTC</KBid></nsummarizer><NSentiment></NSentiment></Methods></Nserver>";
+    command = command + "</NSTEIN_Text><LanguageID>ENGLISH</LanguageID><Methods><nsummarizer><NbSentences>2</NbSentences><KBid>IPTC</KBid></nsummarizer><NSentiment></NSentiment></Methods></Nserver>";
     //now do the post
-    var URL = 'http://[Your TME URL]:40002/rs/';
+    var URL = 'http://otca-demo.eastus2.cloudapp.azure.com:40002/rs/';
     //var result = "";
     fetch(URL, {
       method: "POST",
@@ -58,11 +48,11 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
       result = xmlDoc.getElementsByTagName("Summary")[0].textContent;
       console.log(result);
       summary.innerText = result;
-      var DocLevels = xmlDoc.getElementsByTagName("DocumentLevel")[0];
-      Subjectivity.innerText = DocLevels.getElementsByTagName("Subjectivity")[0].textContent;
-      tone.innerText = DocLevels.getElementsByTagName("Tone")[0].textContent;
-      console.log('Subjectivity' + Subjectivity);
-      console.log('Tone' + tone);
+      //var DocLevels = xmlDoc.getElementsByTagName("DocumentLevel")[0];
+      //Subjectivity.innerText = DocLevels.getElementsByTagName("Subjectivity")[0].textContent;
+      //tone.innerText = DocLevels.getElementsByTagName("Tone")[0].textContent;
+      //console.log('Subjectivity' + Subjectivity);
+      //console.log('Tone' + tone);
       return result;
     })
   }
@@ -75,10 +65,10 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
     var sentences = document.querySelector('#demo');
     var ranger = document.querySelector('#myRange');
     var summary = document.querySelector('#summary');
-    ranger.addEventListener("input",update);
-    sentences.innerText = ranger.value;
-    var subjectivity = document.querySelector('#subjectivity');
-    var tone = document.querySelector('#tone');
+    
+    
+    //var subjectivity = document.querySelector('#subjectivity');
+    //var tone = document.querySelector('#tone');
     chrome.tabs.executeScript(null, {
       file: "getPagesSource.js"
     }, function() {
@@ -87,7 +77,7 @@ chrome.runtime.onMessage.addListener(function(request, sender) {
         message.innerText = 'There was an error running the script : \n' + chrome.runtime.lastError.message;
       }
       else {
-        var magellanResult = callMagellan(message,ranger,summary,subjectivity,tone);
+        var magellanResult = callMagellan(message,summary);
       }
     });
   }
