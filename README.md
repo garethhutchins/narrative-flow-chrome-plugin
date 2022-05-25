@@ -3,3 +3,5 @@ A Chrome extension to support the narrative flow analysis project for University
 This extension can analyse a web page and graphically display its narrative flow.
 A screen shot is shown below:
 ![Alt text](ScreenShot.png "Title")
+
+<img src="./chrome_extension.gif" width="75%" height="75%"><br />

@@ -32,7 +32,7 @@ function callSummariser(content,summary) {
     //var result = "";
     var formdata = new FormData();
     formdata.append("text",command);
-    formdata.append("model_id", "79b376ac-362b-40e1-b4c1-12c74a8883b3");
+    formdata.append("model_id", "fbe8b2a8-4a07-488e-b7a2-0c39b38812b3");
     formdata.append("window_size", "255");
     formdata.append("window_slide", "125");
     var requestOptions = {
